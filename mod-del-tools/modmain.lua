@@ -109,9 +109,18 @@ GLOBAL.TheInput:AddMouseButtonHandler(function(button, down, x, y)
         end
         -- 鼠标右键
     elseif button == GLOBAL.MOUSEBUTTON_RIGHT and down then
-        print("撤销删除！")
-        local reObj = table.remove(delStack)
-        if reObj ~= nil then reObj:ReturnToScene() end
+        -- shift + 鼠标右键恢复全部隐藏
+        if shiftKeyDown then
+            print("全部恢复！")
+            while next(table) ~=nil do
+                local reObj = table.remove(delStack)
+                if reObj ~= nil then reObj:ReturnToScene() end
+            end
+        else
+            print("撤销删除！")
+            local reObj = table.remove(delStack)
+            if reObj ~= nil then reObj:ReturnToScene() end
+        end
     end
 end)
 -- 3.1 获取鼠标点击的物品
